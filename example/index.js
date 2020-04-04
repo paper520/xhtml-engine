@@ -13,4 +13,17 @@ const enginer = require("../index")(template);
  * 直接测试这个对象提供的各个方法即可
  * 
  */
+
+let deepSpank=num=>{
+  let temp="";
+  for(let i=0;i<num;i++){
+    temp+="     ";
+  }
+  return temp;
+}
+
 console.log(enginer);
+
+enginer.forEach(item=>{
+  console.log(deepSpank(item.deep)+"["+item.deep+"]"+(item.content||item.name)+"<-");
+});
