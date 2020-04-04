@@ -4,7 +4,10 @@
 // 也就是不用再区分开始或闭合了
 module.exports = function (tagArray) {
 
-  let deep = 0, needClose = [], tagDeepArray = [];
+  // 闭合标签
+  tagArray = closeTag(tagArray);
+
+  let deep = 0, tagDeepArray = [];
 
   tagArray.forEach(tag => {
 
@@ -17,37 +20,10 @@ module.exports = function (tagArray) {
         deep: ++deep
       });
 
-      // 开始标签需要添加到待闭合集合
-      needClose.push([tagDeepArray.length - 1, tag.tagName]);
-
     } else if (tag.type == 'endTag') {
 
-      let needReset = [];
+      deep -= 1;
 
-      while (needClose.length > 0) {
-        deep -= 1;
-        let needCloseTag = needClose.pop();
-
-        // 如果寻找到闭合标签了
-        if (needCloseTag[1] == tag.tagName) {
-
-          // 重置
-          needReset.forEach(needResetTag => {
-            tagDeepArray[needResetTag[0]].deep = tagDeepArray[needCloseTag[0]].deep + 1;
-          });
-
-          if (needClose.length > 0) {
-            needClose[needClose.length - 1][2] = needReset;
-            needClose[needClose.length - 1][2].unshift();
-          }
-
-          break;
-        } else {
-
-          // 如果不是，需要重置deep，先记录下来
-          needReset.push(needCloseTag);
-        }
-      }
 
     } else if (tag.type == 'textcode') {
 
@@ -75,4 +51,34 @@ module.exports = function (tagArray) {
 
   return tagDeepArray;
 
+};
+
+// 标记所有没有闭合结点的直接自闭合
+let closeTag = function (tagArray) {
+
+  let needClose = [];
+
+  tagArray.forEach((tag, i) => {
+    if (tag.type == 'beginTag') {
+
+      needClose.push([i, tag.tagName]);
+
+    } else if (tag.type == 'endTag') {
+
+      while (needClose.length > 0) {
+
+        let needCloseTag = needClose.pop();
+
+        if (needCloseTag[1] == tag.tagName) {
+          break;
+        } else {
+          tagArray[needCloseTag[0]].type = 'fullTag';
+        }
+
+      }
+
+    }
+  });
+
+  return tagArray;
 };
