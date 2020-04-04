@@ -1,3 +1,5 @@
+const analyseTag = require('./analyseTag');
+
 module.exports = function (template) {
 
     let i = -1,
@@ -31,7 +33,7 @@ module.exports = function (template) {
      * 3.<tag-name />     { tagName:'tag-name', type:'fullTag',  attrs:{} }      自闭合标签
      * 4.text             { tagName:'text',     type:'textcode' }                文本结点
      * 5.<!-- text -->    { tagName:'text',     type:'comment'  }                注释
-     * 6.<!DOCTYPE text>  { tagName:'text',     type:'doctype'  }                声明
+     * 6.<!DOCTYPE text>  { tagName:'text',     type:'DOCTYPE'  }                声明
      * 
      * 
      */
@@ -43,6 +45,29 @@ module.exports = function (template) {
         preIsScript = false, preIsStyle = false; preIsPre = false;
 
         if (tag == null) return null;
+
+        // 针对特殊的comment
+        if (nextNValue(4) == '<!--') {
+            tagObj.type = 'comment';
+            tagObj.tagName = tag;
+            while (nextNValue(3) != '-->') {
+                tagObj.tagName += next();
+            }
+            next(); next();
+            tagObj.tagName = tagObj.tagName.replace(/^<!--/, '').replace(/-$/, '');
+            return tagObj;
+        }
+
+        // 针对特殊的doctype
+        if (nextNValue(9) == '<!DOCTYPE') {
+            tagObj.type = 'DOCTYPE';
+            tagObj.tagName = tag;
+            while (nextNValue(1) != '>') {
+                tagObj.tagName += next();
+            }
+            tagObj.tagName = tagObj.tagName.replace(/^<!DOCTYPE/, '').replace(/>$/, '');
+            return tagObj;
+        }
 
         // 如果是获取script里面的内容
         // 先不考虑里面包含'</script>'
@@ -70,8 +95,33 @@ module.exports = function (template) {
             while (currentChar != '>') {
                 tag += next();
             }
-            tagObj.tagName=tag;
-            console.log(tag);
+
+            // 针对特殊的结束标签
+            if (/^<\//.test(tag)) {
+                tagObj.tagName = tag.replace(/^<\//, '').replace(/>$/, '');
+                tagObj.type = 'endTag';
+            } else {
+
+                if (/\/>$/.test(tag)) {
+                    tagObj.type = 'fullTag';
+                    tag = tag.replace(/\/>$/, '');
+                } else {
+                    tagObj.type = 'beginTag';
+                    tag = tag.replace(/>$/, '');
+                }
+
+                tag = tag.replace(/^</, '');
+
+                tagObj.tagName = "";
+                let i = 0;
+                for (; i < tag.length; i++) {
+                    if (tag[i] == ' ') break;
+                    tagObj.tagName += tag[i];
+                }
+                tagObj.attrs = analyseTag(tag.substring(i));
+
+            }
+
         }
 
         // 如果是归结文本结点
@@ -109,7 +159,6 @@ module.exports = function (template) {
                 preIsPre = false;
             }
         }
-
 
         next();
 
