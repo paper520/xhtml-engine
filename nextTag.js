@@ -8,6 +8,9 @@ module.exports = function (template) {
         // 当前面对的字符
         currentChar = null;
 
+    // 如果前面是获取的js或css，还有pre开始标签，比较特殊，直接寻址闭合的
+    let preIsScript = false, preIsStyle = false; preIsPre = false;
+
     // 获取下一个字符
     let next = function () {
         currentChar = i++ < template.length - 1 ? template[i] : null;
@@ -39,11 +42,56 @@ module.exports = function (template) {
 
         let tag = currentChar, tagObj = {};
 
-        // 如果前面是获取的js或css，还有pre开始标签，比较特殊，直接寻址闭合的
-        preIsScript = false, preIsStyle = false; preIsPre = false;
-
         if (tag == null) return null;
 
+        /**
+         * 特殊标签内容获取
+         * ========================================
+         */
+
+        // 如果是获取script里面的内容
+        // 先不考虑里面包含'</script>'
+        if (preIsScript) {
+            tagObj.type = 'textcode';
+            tagObj.tagName = tag;
+            while (nextNValue(9) != '</script>') {
+                tagObj.tagName += next();
+            }
+            tagObj.tagName = tagObj.tagName.replace(/<$/, '');
+            preIsScript = false;
+            return tagObj;
+        }
+
+        // 如果是获取style里面的内容
+        // 先不考虑里面包含'</style>'
+        else if (preIsStyle) {
+            tagObj.type = 'textcode';
+            tagObj.tagName = tag;
+            while (nextNValue(8) != '</style>') {
+                tagObj.tagName += next();
+            }
+            tagObj.tagName = tagObj.tagName.replace(/<$/, '');
+            preIsStyle = false;
+            return tagObj;
+        }
+
+        // 如果是获取pre里面的内容
+        // 先不考虑里面包含'</pre>'
+        else if (preIsPre) {
+            tagObj.type = 'textcode';
+            tagObj.tagName = tag;
+            while (nextNValue(6) != '</pre>') {
+                tagObj.tagName += next();
+            }
+            tagObj.tagName = tagObj.tagName.replace(/<$/, '');
+            preIsPre = false;
+            return tagObj;
+        }
+
+        /**
+         * 特殊标签获取
+         * ========================================
+         */
         // 针对特殊的comment
         if (nextNValue(4) == '<!--') {
             tagObj.type = 'comment';
@@ -68,25 +116,10 @@ module.exports = function (template) {
             return tagObj;
         }
 
-        // 如果是获取script里面的内容
-        // 先不考虑里面包含'</script>'
-        if (preIsScript) {
-            tagObj.type = 'textcode';
-            tagObj.tagName = tag;
-            while (nextNValue(9) != '</script>') {
-                tagObj.tagName += next();
-            }
-        }
-
-        // 如果是获取style里面的内容
-        // 先不考虑里面包含'</style>'
-        else if (preIsStyle) {
-            tagObj.type = 'textcode';
-            tagObj.tagName = tag;
-            while (nextNValue(8) != '</style>') {
-                tagObj.tagName += next();
-            }
-        }
+        /**
+         * 普通的
+         * ========================================
+         */
 
         // 如果是期望归结非文本结点
         // 如果标签中包含>的先忽略考虑

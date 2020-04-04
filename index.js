@@ -25,6 +25,6 @@ module.exports = function (template) {
         tag = nextTag();
     }
 
-    return " - 学习项目 - ";
+    return " - 开发中 - ";
 
 };
