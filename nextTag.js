@@ -1,14 +1,12 @@
 const analyseTag = require('./analyseTag');
+const { blankReg, blanksReg } = require('./RegExp');
 
 module.exports = function (template) {
 
     let i = -1,
 
         // 当前面对的字符
-        currentChar = null,
-
-        // 空白字符:http://www.w3.org/TR/css3-selectors/#whitespace
-        blankReg = new RegExp("[\\x20\\t\\r\\n\\f]");
+        currentChar = null;
 
     // 获取下一个字符
     let next = function () {
@@ -53,7 +51,7 @@ module.exports = function (template) {
             while (nextNValue(3) != '-->') {
                 tagObj.tagName += next();
             }
-            next(); next();
+            next(); next(); next();
             tagObj.tagName = tagObj.tagName.replace(/^<!--/, '').replace(/-$/, '');
             return tagObj;
         }
@@ -65,6 +63,7 @@ module.exports = function (template) {
             while (nextNValue(1) != '>') {
                 tagObj.tagName += next();
             }
+            next();
             tagObj.tagName = tagObj.tagName.replace(/^<!DOCTYPE/, '').replace(/>$/, '');
             return tagObj;
         }
@@ -118,7 +117,13 @@ module.exports = function (template) {
                     if (tag[i] == ' ') break;
                     tagObj.tagName += tag[i];
                 }
-                tagObj.attrs = analyseTag(tag.substring(i));
+
+                let attrString = tag.substring(i);
+                if (blanksReg.test(attrString)) {
+                    tagObj.attrs = {};
+                } else {
+                    tagObj.attrs = analyseTag(attrString);
+                }
 
             }
 

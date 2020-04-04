@@ -1,5 +1,5 @@
 # xhtml-engine
-基于node.js开发的xhtml字符串解析引擎。
+🌊 基于node.js开发的xhtml字符串解析引擎。
 
 [![downloads](https://img.shields.io/npm/dm/xhtml-engine.svg)](https://yelloxing.github.io/npm-downloads?interval=7&packages=xhtml-engine)
 [![install size](https://packagephobia.now.sh/badge?p=xhtml-engine)](https://packagephobia.now.sh/result?p=xhtml-engine)

@@ -1,7 +1,7 @@
 {
   "name": "xhtml-engine",
   "version": "0.0.1",
-  "description": "基于node.js开发的xhtml字符串解析引擎。",
+  "description": "🌊 基于node.js开发的xhtml字符串解析引擎。",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
