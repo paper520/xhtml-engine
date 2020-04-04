@@ -1,30 +1,50 @@
+const { blanksReg } = require('./RegExp');
+
 module.exports = function (template) {
 
     if (!require('@yelloxing/core.js').isString(template)) throw new Error("Template must be a String!");
 
     // 获取读取下一个标签对象
-    let nextTag = require('./nextTag')(template),
+    let nextTag = require('./nextTag')(template);
 
-        /**
-         * 模仿浏览器构建的一棵树,每个节点有如下属性：
-         * 1.parentNode 父结点
-         * 2.childNodes 孩子结点
-         * 3.preNode    前一个兄弟结点
-         * 4.nextNode   后一个兄弟结点
-         * 5.attrs:{}   当前结点的属性
-         * 6.tagName    节点名称
-         * 7.type       节点类型
-         * 
-         * 需要注意的是：如果一个文本结点内容只包含回车，tab，空格等空白字符，会直接被忽视
-         */
-        domTree = {};
+    /**
+     * 模仿浏览器构建的一棵树,每个节点有如下属性：
+     * 1.parentNode 父结点
+     * 2.childNodes 孩子结点
+     * 3.preNode    前一个兄弟结点
+     * 4.nextNode   后一个兄弟结点
+     * 5.attrs:{}   当前结点的属性
+     * 6.tagName    节点名称
+     * 7.type       节点类型
+     * 
+     * 需要注意的是：如果一个文本结点内容只包含回车，tab，空格等空白字符，会直接被忽视
+     */
 
-    let tag = nextTag();
-    while (tag) {
-        console.log(tag);
+    let tag = nextTag(), tagArray = [];
+    while (tag != null) {
+
+        if (tag.type == 'textcode' && blanksReg.test(tag.tagName)) {
+
+            // 空白文本结点过滤掉
+
+        } else if (tag.type == 'DOCTYPE') {
+
+            // DOCTYPE也过滤掉
+
+        } else if (tag.type == 'comment') {
+
+            // 注释目前也先过滤掉
+
+        } else {
+            tagArray.push(tag);
+        }
+
         tag = nextTag();
     }
 
-    return " - 开发中 - ";
+    // 分析层次
+    tagArray = require('./analyseDeep')(tagArray);
+
+    return tagArray;
 
 };
