@@ -20,6 +20,10 @@ Engine.prototype.init = function (template, indexs) {
 
 };
 
+Engine.prototype.__new__ = function (template, indexs) {
+  return Engine(template, indexs);
+};
+
 // 扩展引擎方法
 Engine.prototype.extend = function (source) {
   for (let key in source) this[key] = source[key];
@@ -42,10 +46,10 @@ Engine.prototype.toString = function () {
 
   let str = "[";
   for (let i = 0; i < this.length; i++) {
-    let value = Engine(this.__DomTree__, [i]).valueOf();
-    str += (require('@yelloxing/core.js').isString(value) ? value : JSON.stringify(value));
+    let value = Engine(this.__DomTree__, [this[i]]).valueOf();
+    str += (require('@yelloxing/core.js').isString(value) ? value : JSON.stringify(value)) + ",";
   }
-  return str + "]";
+  return str.replace(/,$/, '') + "]";
 };
 
 /**

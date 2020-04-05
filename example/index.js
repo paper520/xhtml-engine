@@ -1,6 +1,6 @@
 const template = require('fs').readFileSync('../code.html', 'utf-8');
 
-let engine = require('../index')(template);
+let engine = require('../index')(template,[3]);
 
 console.log(engine.valueOf());
 console.log(engine + "");

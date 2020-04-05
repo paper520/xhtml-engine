@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "test": "echo 'chrome://inspect/#devices' && node --inspect-brk ./index.js"
+  }
+}
