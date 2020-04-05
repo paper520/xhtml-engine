@@ -17,7 +17,7 @@ module.exports = function (tagArray) {
         type: "tag",
         name: tag.tagName,
         attrs: tag.attrs,
-        deep: ++deep
+        __deep__: ++deep
       });
 
     } else if (tag.type == 'endTag') {
@@ -31,7 +31,7 @@ module.exports = function (tagArray) {
       tagDeepArray.push({
         type: "text",
         content: tag.tagName,
-        deep: deep + 1
+        __deep__: deep + 1
       });
 
     } else {
@@ -41,7 +41,7 @@ module.exports = function (tagArray) {
         type: "tag",
         name: tag.tagName,
         attrs: tag.attrs,
-        deep: deep + 1
+        __deep__: deep + 1
 
       });
 

@@ -14,16 +14,16 @@ const enginer = require("../index")(template);
  * 
  */
 
-let deepSpank=num=>{
-  let temp="";
-  for(let i=0;i<num;i++){
-    temp+="     ";
+let deepSpank = num => {
+  let temp = "";
+  for (let i = 0; i < num; i++) {
+    temp += "     ";
   }
   return temp;
 }
 
 console.log(enginer);
 
-enginer.forEach(item=>{
-  console.log(deepSpank(item.deep)+"["+item.deep+"]"+(item.content||item.name)+"<-");
+enginer.forEach((item, index) => {
+  console.log(deepSpank(item.__deep__) + "[" + index + "]" + (item.name || " text ") + "[" + item.childNodes + "][" + item.preNode + "][" + item.nextNode + "][" + item.parentNode + "]");
 });
