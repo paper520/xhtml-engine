@@ -57,12 +57,12 @@ Engine.prototype.toString = function () {
  * -------------------------
  */
 
-const { parent, parents, children, siblings, next, nextAll, prev, prevAll } = require('./search');
+const { parent, parents, children, siblings, next, nextAll, prev, prevAll, eq } = require('./search');
 
 Engine.prototype.extend({
 
   // 查找方法
-  parent, parents, children, siblings, next, nextAll, prev, prevAll
+  parent, parents, children, siblings, next, nextAll, prev, prevAll, eq
 
 });
 

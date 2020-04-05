@@ -13,3 +13,5 @@ console.log("next:" + engine.next());
 console.log("nextAll:" + engine.nextAll());
 console.log("prev:" + engine.prev());
 console.log("prevAll:" + engine.prevAll());
+
+console.log("nextAll[1]:" + engine.nextAll().eq(0));

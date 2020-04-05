@@ -59,6 +59,11 @@ let newEngine = Engine.prev();
 let newEngine = Engine.prevAll();
 ```
 
+- 选中当前维护的第index
+```js
+let newEngine = Engine.eq(index);
+```
+
 这些方法会返回一个包含查找结果的新引擎对象，无论是旧的还是新引擎对象，你都可以通过下面的方法查看其值：
 
 ```js

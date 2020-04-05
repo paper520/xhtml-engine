@@ -1,3 +1,12 @@
+// 选中当前维护的第index
+exports.eq = function (index) {
+  if (this.length > index) {
+    return this.__new__(this.__DomTree__, [this[index]]);
+  } else {
+    return this.__new__(this.__DomTree__, []);
+  }
+};
+
 /**
  * 提供结点查找相关方法
  * ---------------------------
