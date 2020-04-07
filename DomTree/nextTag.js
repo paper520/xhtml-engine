@@ -124,8 +124,45 @@ module.exports = function (template) {
         // 如果是期望归结非文本结点
         // 如果标签中包含>的先忽略考虑
         else if (tag == '<') {
-            while (currentChar != '>') {
+
+            // 标记是否处于属性值是字符串包裹中
+            let isAttrString = false, attrLeftValue = null, attrLeftLen = null;
+
+            // 如果在包裹中或者没有遇到‘>’说明没有结束
+            while (isAttrString || currentChar != '>') {
+
                 tag += next();
+
+                // 如果是包裹里面，试探是否即将遇到了结束
+                if (isAttrString) {
+
+                    let next23Value = nextNValue(attrLeftLen + 1).substring(1);
+                    if (next23Value == attrLeftValue) {
+                        isAttrString = false;
+                    }
+
+                }
+
+                // 如果在包裹外面，试探是否即将进入包裹
+                else {
+
+                    let next23Value = nextNValue(2);
+                    if (next23Value == '="' || next23Value == "='") {
+                        attrLeftValue = next23Value.replace('=', '');
+                        attrLeftLen = 1;
+                        isAttrString = true;
+                    }
+
+                    next23Value = nextNValue(3);
+                    if (next23Value == '=\"' || next23Value == "=\'") {
+                        attrLeftValue = next23Value.replace('=', '');
+                        attrLeftLen = 2;
+                        isAttrString = true;
+                    }
+
+                }
+
+
             }
 
             // 针对特殊的结束标签
