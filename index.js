@@ -58,7 +58,7 @@ Engine.prototype.toString = function () {
  */
 
 const { parent, parents, children, siblings, next, nextAll, prev, prevAll, eq } = require('./Search');
-const { innerHTML } = require('./Operate');
+const { innerHTML, outerHTML } = require('./Operate');
 
 Engine.prototype.extend({
 
@@ -66,7 +66,7 @@ Engine.prototype.extend({
   parent, parents, children, siblings, next, nextAll, prev, prevAll, eq,
 
   // 一些常规方法
-  innerHTML
+  innerHTML, outerHTML
 
 });
 
