@@ -17,7 +17,8 @@ module.exports = function (tagArray) {
         type: "tag",
         name: tag.tagName,
         attrs: tag.attrs,
-        __deep__: ++deep
+        __deep__: ++deep,
+        __tagType__: "double"
       });
 
     } else if (tag.type == 'endTag') {
@@ -41,8 +42,8 @@ module.exports = function (tagArray) {
         type: "tag",
         name: tag.tagName,
         attrs: tag.attrs,
-        __deep__: deep + 1
-
+        __deep__: deep + 1,
+        __tagType__: "single"
       });
 
     }

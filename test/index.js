@@ -1,3 +1,6 @@
+
+// 这里只是测试最重要的DOMtree构建的是否正确
+
 const template = require('fs').readFileSync('../code.html', 'utf-8');
 
 // 创建DOM对象
