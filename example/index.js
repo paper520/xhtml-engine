@@ -6,6 +6,13 @@ const template = require('fs').readFileSync('../code.html', 'utf-8');
 let engine = require('../index')(template, [3]);
 
 /**
+ * 0.设计方面测试
+ */
+
+// engine.parent().__DomTree__[1].attrs={};
+// console.log(engine);
+
+/**
  * 1.基础方法
  */
 

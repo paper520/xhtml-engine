@@ -122,7 +122,6 @@ module.exports = function (template) {
          */
 
         // 如果是期望归结非文本结点
-        // 如果标签中包含>的先忽略考虑
         else if (tag == '<') {
 
             // 标记是否处于属性值是字符串包裹中
