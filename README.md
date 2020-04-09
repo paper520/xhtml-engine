@@ -23,7 +23,7 @@ let Engine = require('xhtml-engine')(tempate);
 获得引擎对象以后，就可以直接调用上面的方法进行操作了（这和在浏览器上操作DOM很像），有如下操作可以使用：
 
 - [结点查找](./docs/search.md)
-- [一些常规方法](./docs/operate.md)
+- [属性、样式等基本操作](./docs/operate.md)
 
 在引擎对象上，你可以通过下面的方法查看其值：
 
