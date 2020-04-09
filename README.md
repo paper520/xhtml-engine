@@ -6,6 +6,8 @@
 [![Version](https://img.shields.io/npm/v/xhtml-engine.svg)](https://www.npmjs.com/package/xhtml-engine)
 [![License](https://img.shields.io/npm/l/xhtml-engine.svg)](https://github.com/yelloxing/xhtml-engine/blob/master/LICENSE)
 
+> 项目持续升级中，如果你希望下一版本提供新的功能，可以提[issue](https://github.com/yelloxing/xhtml-engine/issues)给我们！
+
 ## How to use?
 
 首先你需要通过命令行安装，就像这样：

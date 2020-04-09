@@ -1,7 +1,5 @@
-module.exports = function (target) {
-
-    // 如果没有内容
-    if (target.length <= 0) return "";
+// 获取对象的模板
+exports.getTemplate = function (target) {
 
     // 如果是文本结点
     if (target[0].type == 'text') return target[0].content;

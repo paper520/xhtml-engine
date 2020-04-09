@@ -58,15 +58,15 @@ Engine.prototype.toString = function () {
  */
 
 const { parent, parents, children, siblings, next, nextAll, prev, prevAll, eq } = require('./Search');
-const { innerHTML, outerHTML } = require('./Operate');
+const { innerHTML, outerHTML, attr, css } = require('./Operate');
 
 Engine.prototype.extend({
 
   // 结点查找
   parent, parents, children, siblings, next, nextAll, prev, prevAll, eq,
 
-  // 一些常规方法
-  innerHTML, outerHTML
+  // 属性、样式等基本操作
+  innerHTML, outerHTML, attr
 
 });
 
