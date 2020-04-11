@@ -8,8 +8,9 @@ module.exports = function (template) {
         // 当前面对的字符
         currentChar = null;
 
-    // 如果前面是获取的js或css，还有pre开始标签，比较特殊，直接寻址闭合的
-    let preIsScript = false, preIsStyle = false; preIsPre = false;
+    // 如果前面是获取的js或css，还有pre等开始标签，比较特殊，直接寻址闭合的
+    let preIsSpecial = false, specialCode = "";
+    let specialTag = ['script', 'pre', 'style', 'code'];
 
     // 获取下一个字符
     let next = function () {
@@ -49,42 +50,16 @@ module.exports = function (template) {
          * ========================================
          */
 
-        // 如果是获取script里面的内容
-        // 先不考虑里面包含'</script>'
-        if (preIsScript) {
+        // 如果是获取特殊标签里面的内容
+        // 先不考虑里面包含'</XXX>'
+        if (preIsSpecial) {
             tagObj.type = 'textcode';
             tagObj.tagName = tag;
-            while (nextNValue(9) != '</script>') {
+            while (nextNValue(specialCode.length + 3) != '</' + specialCode + '>') {
                 tagObj.tagName += next();
             }
             tagObj.tagName = tagObj.tagName.replace(/<$/, '');
-            preIsScript = false;
-            return tagObj;
-        }
-
-        // 如果是获取style里面的内容
-        // 先不考虑里面包含'</style>'
-        else if (preIsStyle) {
-            tagObj.type = 'textcode';
-            tagObj.tagName = tag;
-            while (nextNValue(8) != '</style>') {
-                tagObj.tagName += next();
-            }
-            tagObj.tagName = tagObj.tagName.replace(/<$/, '');
-            preIsStyle = false;
-            return tagObj;
-        }
-
-        // 如果是获取pre里面的内容
-        // 先不考虑里面包含'</pre>'
-        else if (preIsPre) {
-            tagObj.type = 'textcode';
-            tagObj.tagName = tag;
-            while (nextNValue(6) != '</pre>') {
-                tagObj.tagName += next();
-            }
-            tagObj.tagName = tagObj.tagName.replace(/<$/, '');
-            preIsPre = false;
+            preIsSpecial = false;
             return tagObj;
         }
 
@@ -211,26 +186,19 @@ module.exports = function (template) {
         }
 
 
-        // 如果遇到开始script或者style、pre标记开始获取特殊文本
+        // 如果遇到开始script或者style、pre等特殊标签，标记开始获取特殊文本
         if (tagObj.type == 'beginTag') {
-            if ((tagObj.tagName + "").toLowerCase() == 'script') {
-                preIsScript = true;
-            } else if ((tagObj.tagName + "").toLowerCase() == 'style') {
-                preIsStyle = true;
-            } else if ((tagObj.tagName + "").toLowerCase() == 'pre') {
-                preIsPre = true;
+            if (specialTag.indexOf(tagObj.tagName.toLowerCase()) > -1) {
+                preIsSpecial = true;
+                specialCode = tagObj.tagName;
             }
 
         }
 
-        // 如果遇到结束script或者style、pre标记结束获取特殊文本
+        // 如果遇到结束script或者style、pre等特殊标签，标记结束获取特殊文本
         else if (tagObj.type == 'endTag') {
-            if ((tagObj.tagName + "").toLowerCase() == 'script') {
-                preIsScript = false;
-            } else if ((tagObj.tagName + "").toLowerCase() == 'style') {
-                preIsStyle = false;
-            } else if ((tagObj.tagName + "").toLowerCase() == 'pre') {
-                preIsPre = false;
+            if (specialTag.indexOf(tagObj.tagName.toLowerCase()) > -1) {
+                preIsSpecial = false;
             }
         }
 

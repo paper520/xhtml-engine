@@ -1,6 +1,6 @@
 {
   "name": "xhtml-engine",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "🌊 基于node.js开发的xhtml字符串解析引擎。",
   "main": "index.js",
   "repository": {
