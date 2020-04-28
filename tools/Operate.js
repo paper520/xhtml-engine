@@ -1,4 +1,4 @@
-let {getTemplate} = require('./tools/template');
+let {getTemplate} = require('./template');
 
 // 获取innerHTML
 exports.innerHTML = function () {

@@ -14,7 +14,7 @@ let template = Engine.outerHTML();
 
 - 属性的获取和设置
 ```js
-let value = Engine.attr(name, value);
+let value = Engine.attr(name[, value]);
 ```
 如果传递value表示设置，否则表示获取名称为name的属性值。
 
