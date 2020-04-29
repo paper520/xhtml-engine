@@ -65,7 +65,7 @@ Engine.prototype.extend({
   // 结点查找
   parent, parents, children, siblings, next, nextAll, prev, prevAll, eq,
 
-  // 属性、样式等基本操作
+  // 属性等基本操作
   innerHTML, outerHTML, attr
 
 });

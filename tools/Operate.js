@@ -1,21 +1,42 @@
-let {getTemplate} = require('./template');
+const { getTemplate, setTemplate } = require('./_template');
+const __ = require('@yelloxing/core.js');
+const DomTree = require('../DomTree/index');
 
-// 获取innerHTML
-exports.innerHTML = function () {
+// 获取或设置innerHTML
+exports.innerHTML = function (HTMLtemplate) {
     if (this.length <= 0) throw new Error('Null pointer!');
+
+    // 设置
+    if (__.isString(HTMLtemplate)) {
+
+        setTemplate(this, DomTree("<null-engine-frame>" + HTMLtemplate + "</null-engine-frame>"));
+        return this;
+    }
 
     // 获取
-    let template = "", childNodes = this.children();
-    for (let i = 0; i < childNodes.length; i++) {
-        template += getTemplate(childNodes.eq(i));
+    else {
+        let template = "", childNodes = this.children();
+        for (let i = 0; i < childNodes.length; i++) {
+            template += getTemplate(childNodes.eq(i));
+        }
+        return template;
     }
-    return template;
 };
 
-// 获取outerHTML
-exports.outerHTML = function () {
+// 获取或设置outerHTML
+exports.outerHTML = function (HTMLtemplate) {
     if (this.length <= 0) throw new Error('Null pointer!');
-    return getTemplate(this);
+
+    // 设置
+    if (__.isString(HTMLtemplate)) {
+        setTemplate(this, DomTree(HTMLtemplate));
+        return this;
+    }
+
+    // 获取
+    else {
+        return getTemplate(this);
+    }
 };
 
 // 属性的获取和设置

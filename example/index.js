@@ -38,5 +38,13 @@ console.log("nextAll[1]:" + engine.nextAll().eq(0));
  * 3.一些常规方法
  */
 
-console.log("innerHTML:" + engine.parent().next().innerHTML());
-console.log("innerHTML:" + engine.parent().next().outerHTML());
+console.log("get innerHTML:" + engine.parent().next().innerHTML());
+console.log("get outerHTML:" + engine.parent().next().outerHTML());
+
+console.log("get innerHTML:" + engine.parent().innerHTML());
+engine.parent().innerHTML("<div>测试1</div>");
+console.log("get innerHTML:" + engine.parent().innerHTML());
+
+console.log("get outerHTML:" + engine.parent().outerHTML());
+engine.parent().outerHTML("<div>测试2</div>");
+console.log("get outerHTML:" + engine.parent().outerHTML());

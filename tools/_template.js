@@ -1,3 +1,5 @@
+const { addItemIndex, mountItem } = require('./_domitem');
+
 // 获取对象的模板
 exports.getTemplate = function (target) {
 
@@ -77,4 +79,20 @@ exports.getTemplate = function (target) {
     }
 
     return needCalcs.join("");
+};
+
+// 设置对象模板
+exports.setTemplate = function (target, template) {
+
+    let len = target.__DomTree__.length;
+
+    // 追加维护的数组中
+    for (let i = 1; i < template.length; i++) {
+        template[i].__deep__ += (target.__DomTree__[target[0]].__deep__ - 1);
+        target.__DomTree__.push(addItemIndex(template[i], len - 1));
+    }
+
+    // 挂载到结点
+    mountItem(target.__DomTree__[target[0]], addItemIndex(template[0], len - 1));
+
 };
