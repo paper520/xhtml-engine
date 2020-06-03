@@ -1,7 +1,8 @@
 const { blanksReg } = require('./RegExp');
 
 // 获取一棵DOM树
-module.exports = function (template) {
+// noIgnore为true表示不忽略任何标签
+module.exports = function (template, noIgnore) {
 
     if (!require('@yelloxing/core.js').isString(template)) throw new Error("Template must be a String!");
 
@@ -11,17 +12,22 @@ module.exports = function (template) {
     let tag = nextTag(), DomTree = [];
     while (tag != null) {
 
+        console.log(tag);
+
         if (tag.type == 'textcode' && blanksReg.test(tag.tagName)) {
 
             // 空白文本结点过滤掉
 
         } else if (tag.type == 'DOCTYPE') {
 
-            // DOCTYPE也过滤掉
+            // DOCTYPE默认过滤掉
 
         } else if (tag.type == 'comment') {
 
-            // 注释目前也先过滤掉
+            // 注释目前也默认过滤掉，除非显示声明不忽略
+            if (noIgnore) {
+                DomTree.push(tag);
+            }
 
         } else {
             DomTree.push(tag);
@@ -32,6 +38,8 @@ module.exports = function (template) {
 
     // 分析层次
     DomTree = require('./analyseDeep')(DomTree);
+
+    debugger
 
     /**
      * 模仿浏览器构建的一棵树,每个节点有如下属性：
