@@ -12,15 +12,13 @@ module.exports = function (template, noIgnore) {
     let tag = nextTag(), DomTree = [];
     while (tag != null) {
 
-        console.log(tag);
-
         if (tag.type == 'textcode' && blanksReg.test(tag.tagName)) {
 
             // 空白文本结点过滤掉
 
         } else if (tag.type == 'DOCTYPE') {
 
-            // DOCTYPE默认过滤掉
+            // DOCTYPE过滤掉
 
         } else if (tag.type == 'comment') {
 
@@ -38,8 +36,6 @@ module.exports = function (template, noIgnore) {
 
     // 分析层次
     DomTree = require('./analyseDeep')(DomTree);
-
-    debugger
 
     /**
      * 模仿浏览器构建的一棵树,每个节点有如下属性：

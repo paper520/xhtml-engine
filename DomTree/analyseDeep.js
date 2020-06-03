@@ -35,6 +35,15 @@ module.exports = function (tagArray) {
         __deep__: deep + 1
       });
 
+    } else if (tag.type == 'comment') {
+
+      // 如果是注释
+      tagDeepArray.push({
+        type: "comment",
+        content: tag.tagName,
+        __deep__: deep + 1
+      });
+
     } else {
 
       // 如果是自闭合结点
