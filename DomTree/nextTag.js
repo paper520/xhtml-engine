@@ -55,7 +55,7 @@ module.exports = function (template) {
         if (preIsSpecial) {
             tagObj.type = 'textcode';
             tagObj.tagName = tag;
-            while (nextNValue(specialCode.length + 3) != '</' + specialCode + '>') {
+            while (nextNValue(specialCode.length + 3) != '</' + specialCode + '>' && i < template.length) {
                 tagObj.tagName += next();
             }
             tagObj.tagName = tagObj.tagName.replace(/<$/, '');
@@ -71,7 +71,7 @@ module.exports = function (template) {
         if (nextNValue(4) == '<!--') {
             tagObj.type = 'comment';
             tagObj.tagName = tag;
-            while (nextNValue(3) != '-->') {
+            while (nextNValue(3) != '-->' && i < template.length) {
                 tagObj.tagName += next();
             }
             next(); next(); next();
@@ -83,7 +83,7 @@ module.exports = function (template) {
         if (nextNValue(9) == '<!DOCTYPE') {
             tagObj.type = 'DOCTYPE';
             tagObj.tagName = tag;
-            while (nextNValue(1) != '>') {
+            while (nextNValue(1) != '>' && i < template.length) {
                 tagObj.tagName += next();
             }
             next();
@@ -103,7 +103,7 @@ module.exports = function (template) {
             let isAttrString = false, attrLeftValue = null, attrLeftLen = null;
 
             // 如果在包裹中或者没有遇到‘>’说明没有结束
-            while (isAttrString || currentChar != '>') {
+            while (isAttrString || currentChar != '>' && i < template.length) {
 
                 tag += next();
 
@@ -178,7 +178,7 @@ module.exports = function (template) {
         else {
             tagObj.type = 'textcode';
             tagObj.tagName = currentChar;
-            while (nextNValue(1) != '<') {
+            while (nextNValue(1) != '<' && i < template.length) {
                 tagObj.tagName += next();
             }
             tagObj.tagName = tagObj.tagName.replace(/<$/, '');
