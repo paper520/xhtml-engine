@@ -1,13 +1,13 @@
-const { getTemplate, setTemplate } = require('./_template');
-const __ = require('@yelloxing/core.js');
-const DomTree = require('../DomTree/index');
+import { getTemplate, setTemplate } from './_template';
+import isString from '@yelloxing/core.js/isString';
+import DomTree from '../DomTree/entry.inner';
 
 // 获取或设置innerHTML
-exports.innerHTML = function (HTMLtemplate) {
+export function innerHTML(HTMLtemplate) {
     if (this.length <= 0) throw new Error('Null pointer!');
 
     // 设置
-    if (__.isString(HTMLtemplate)) {
+    if (isString(HTMLtemplate)) {
 
         setTemplate(this, DomTree("<null-engine-frame>" + HTMLtemplate + "</null-engine-frame>"));
         return this;
@@ -24,11 +24,11 @@ exports.innerHTML = function (HTMLtemplate) {
 };
 
 // 获取或设置outerHTML
-exports.outerHTML = function (HTMLtemplate) {
+export function outerHTML(HTMLtemplate) {
     if (this.length <= 0) throw new Error('Null pointer!');
 
     // 设置
-    if (__.isString(HTMLtemplate)) {
+    if (isString(HTMLtemplate)) {
         setTemplate(this, DomTree(HTMLtemplate));
         return this;
     }
@@ -40,7 +40,7 @@ exports.outerHTML = function (HTMLtemplate) {
 };
 
 // 属性的获取和设置
-exports.attr = function (name, value) {
+export function attr(name, value) {
     if (this.length <= 0) throw new Error('Null pointer!');
 
     if (arguments.length > 1) {

@@ -1,23 +1,23 @@
-const __ = require('@yelloxing/core.js');
+import isNumber from '@yelloxing/core.js/isNumber';
 
-exports.addItemIndex = function (item, index) {
+export function addItemIndex(item, index) {
 
     // 孩子结点
     for (let i = 0; i < item.childNodes.length; i++) item.childNodes[i] += index;
 
     // 前一个结点
-    if (__.isNumber(item.preNode)) item.preNode += index;
+    if (isNumber(item.preNode)) item.preNode += index;
 
     // 后一个结点
-    if (__.isNumber(item.nextNode)) item.nextNode += index;
+    if (isNumber(item.nextNode)) item.nextNode += index;
 
     // 父亲结点
-    if (__.isNumber(item.parentNode)) item.parentNode += index;
+    if (isNumber(item.parentNode)) item.parentNode += index;
 
     return item;
 };
 
-exports.mountItem = function (targetItem, sourceItem) {
+export function mountItem(targetItem, sourceItem) {
 
     // 孩子结点
     targetItem.childNodes = sourceItem.childNodes;

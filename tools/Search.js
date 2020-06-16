@@ -1,5 +1,5 @@
 // 选中当前维护的第index
-exports.eq = function (index) {
+export function eq(index) {
   if (this.length > index) {
     return this.__new__(this.__DomTree__, [this[index]]);
   } else {
@@ -13,7 +13,7 @@ exports.eq = function (index) {
  */
 
 // 查找父亲
-exports.parent = function () {
+export function parent() {
 
   let pNode = null;
   if (this.length > 0) {
@@ -24,7 +24,7 @@ exports.parent = function () {
 };
 
 // 查找祖宗
-exports.parents = function () {
+export function parents() {
 
   let pNodes = [];
   if (this.length > 0) {
@@ -40,7 +40,7 @@ exports.parents = function () {
 };
 
 // 查找孩子
-exports.children = function () {
+export function children() {
 
   let childNodes = [];
   if (this.length > 0) {
@@ -51,7 +51,7 @@ exports.children = function () {
 };
 
 // 查找同胞
-exports.siblings = function () {
+export function siblings() {
 
   let siblingNodes = [];
   if (this.length > 0) {
@@ -78,7 +78,7 @@ exports.siblings = function () {
 };
 
 // 下一个兄弟
-exports.next = function () {
+export function next() {
 
   let siblingNode = [];
   if (this.length > 0) {
@@ -95,7 +95,7 @@ exports.next = function () {
 };
 
 // 后续全部兄弟
-exports.nextAll = function () {
+export function nextAll() {
 
   let siblingNodes = [];
   if (this.length > 0) {
@@ -112,7 +112,7 @@ exports.nextAll = function () {
 };
 
 // 前一个兄弟
-exports.prev = function () {
+export function prev() {
 
   let siblingNode = [];
   if (this.length > 0) {
@@ -129,7 +129,7 @@ exports.prev = function () {
 };
 
 // 前置全部兄弟
-exports.prevAll = function () {
+export function prevAll() {
 
   let siblingNodes = [];
   if (this.length > 0) {

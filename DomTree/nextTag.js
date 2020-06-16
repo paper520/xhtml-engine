@@ -1,7 +1,7 @@
-const analyseTag = require('./analyseTag');
-const { blankReg, blanksReg } = require('./RegExp');
+import $RegExp from './RegExp';
+import analyseTag from './analyseTag';
 
-module.exports = function (template) {
+export default function (template) {
 
     let i = -1,
 
@@ -25,7 +25,7 @@ module.exports = function (template) {
 
     next();
     // 剔除开头的空白
-    while (blankReg.test(currentChar) && i < template.length - 1) next();
+    while ($RegExp.blankReg.test(currentChar) && i < template.length - 1) next();
 
 
     /**
@@ -163,7 +163,7 @@ module.exports = function (template) {
                 }
 
                 let attrString = tag.substring(i);
-                if (blanksReg.test(attrString)) {
+                if ($RegExp.blanksReg.test(attrString)) {
                     tagObj.attrs = {};
                 } else {
                     tagObj.attrs = analyseTag(attrString);

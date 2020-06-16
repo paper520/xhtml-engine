@@ -1,7 +1,8 @@
-const { addItemIndex, mountItem } = require('./_domitem');
+import { addItemIndex, mountItem } from './_domitem';
+import isString from '@yelloxing/core.js/isString';
 
 // 获取对象的模板
-exports.getTemplate = function (target) {
+export function getTemplate(target) {
 
     // 如果是文本结点
     if (target[0].type == 'text') return target[0].content;
@@ -21,7 +22,7 @@ exports.getTemplate = function (target) {
         // 寻找第一个没有计算的
         do {
             currentNode = needCalcs[index++];
-        } while (require('@yelloxing/core.js').isString(currentNode));
+        } while (isString(currentNode));
 
         if (!currentNode) {
             break;
@@ -82,7 +83,7 @@ exports.getTemplate = function (target) {
 };
 
 // 设置对象模板
-exports.setTemplate = function (target, template) {
+export function setTemplate(target, template) {
 
     let len = target.__DomTree__.length;
 
