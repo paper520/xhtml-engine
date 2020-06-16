@@ -3,7 +3,8 @@
 
 const template = require('fs').readFileSync('../code.html', 'utf-8');
 
-let engine = require('../index')(template, [3]);
+// let engine = require('../index')(template, [3]);
+let engine = require('../dist/xhtml-engine.min.js')(template, [3]);
 
 /**
  * 0.设计方面测试

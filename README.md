@@ -1,5 +1,5 @@
 # xhtml-engine
-🌊 基于node.js开发的xhtml字符串解析引擎。
+🌊 xhtml字符串解析引擎。
 
 [![downloads](https://img.shields.io/npm/dm/xhtml-engine.svg)](https://yelloxing.github.io/npm-downloads?interval=7&packages=xhtml-engine)
 [![install size](https://packagephobia.now.sh/badge?p=xhtml-engine)](https://packagephobia.now.sh/result?p=xhtml-engine)
@@ -17,6 +17,13 @@ npm install --save xhtml-engine
 ```
 
 安装好了以后，传入需要的字符串获取引擎对象：
+
+```js
+import xHtmlEngine from 'xhtml-engine';
+let Engine = xHtmlEngine(tempate);
+```
+
+或
 
 ```js
 let Engine = require('xhtml-engine')(tempate);
