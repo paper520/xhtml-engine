@@ -1,7 +1,7 @@
-const { blanksReg } = require('./RegExp');
+import $RegExp from './RegExp';
 
 // 分析结点的属性
-module.exports = function (attrString) {
+export default function (attrString) {
   let attr = {}, index = 0;
 
   attrString = attrString.trim();
@@ -15,12 +15,12 @@ module.exports = function (attrString) {
     for (; index < attrString.length; index++) {
 
       // 寻找属性名的时候遇到空白或结尾的时候，肯定没有属性值
-      if (blanksReg.test(attrString[index]) || index == attrString.length - 1) {
+      if ($RegExp.blanksReg.test(attrString[index]) || index == attrString.length - 1) {
 
         attrName += attrString[index];
 
         // 如果属性名是空白，就不需要记录了
-        if (!blanksReg.test(attrName)) {
+        if (!$RegExp.blanksReg.test(attrName)) {
           attr[attrName.trim()] = "";
         }
         index += 1;
@@ -73,7 +73,7 @@ module.exports = function (attrString) {
         // 我们确定寻找到对应的包裹闭合即可
         else {
           for (; index < attrString.length; index++) {
-            if (blanksReg.test(attrString[index])) {
+            if ($RegExp.blanksReg.test(attrString[index])) {
               attr[attrName.trim()] = attrValue.trim();
               index += 1;
               break;

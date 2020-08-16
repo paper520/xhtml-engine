@@ -1,5 +1,6 @@
 {
   "scripts": {
-    "test": "echo 'chrome://inspect/#devices' && node --inspect-brk ./index.js"
+    "test": "echo 'chrome://inspect/#devices' && node --inspect-brk ./index.js",
+    "test-noIgnore": "echo 'chrome://inspect/#devices' && node --inspect-brk ./index.noIgnore.js"
   }
 }

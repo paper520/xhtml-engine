@@ -1,5 +1,8 @@
+import { addItemIndex, mountItem } from './_domitem';
+import isString from '@yelloxing/core.js/isString';
+
 // 获取对象的模板
-exports.getTemplate = function (target) {
+export function getTemplate(target) {
 
     // 如果是文本结点
     if (target[0].type == 'text') return target[0].content;
@@ -19,7 +22,7 @@ exports.getTemplate = function (target) {
         // 寻找第一个没有计算的
         do {
             currentNode = needCalcs[index++];
-        } while (require('@yelloxing/core.js').isString(currentNode));
+        } while (isString(currentNode));
 
         if (!currentNode) {
             break;
@@ -77,4 +80,20 @@ exports.getTemplate = function (target) {
     }
 
     return needCalcs.join("");
+};
+
+// 设置对象模板
+export function setTemplate(target, template) {
+
+    let len = target.__DomTree__.length;
+
+    // 追加维护的数组中
+    for (let i = 1; i < template.length; i++) {
+        template[i].__deep__ += (target.__DomTree__[target[0]].__deep__ - 1);
+        target.__DomTree__.push(addItemIndex(template[i], len - 1));
+    }
+
+    // 挂载到结点
+    mountItem(target.__DomTree__[target[0]], addItemIndex(template[0], len - 1));
+
 };

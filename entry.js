@@ -1,3 +1,7 @@
+import isArray from '@yelloxing/core.js/isArray';
+import isString from '@yelloxing/core.js/isString';
+import DomTree from './DomTree/entry.inner';
+
 let Engine = function (template, indexs) {
   return new Engine.prototype.init(template, indexs);
 };
@@ -5,10 +9,10 @@ let Engine = function (template, indexs) {
 Engine.prototype.init = function (template, indexs) {
 
   // 维护内置的tree
-  this.__DomTree__ = require('@yelloxing/core.js').isArray(template) ? template : require('./DomTree/index')(template);
+  this.__DomTree__ = isArray(template) ? template : DomTree(template);
 
   // 记录当前查询到的结点
-  if (require('@yelloxing/core.js').isArray(indexs)) {
+  if (isArray(indexs)) {
     for (let i = 0; i < indexs.length; i++) this[i] = indexs[i];
     this.length = indexs.length;
   } else {
@@ -47,7 +51,7 @@ Engine.prototype.toString = function () {
   let str = "[";
   for (let i = 0; i < this.length; i++) {
     let value = Engine(this.__DomTree__, [this[i]]).valueOf();
-    str += (require('@yelloxing/core.js').isString(value) ? value : JSON.stringify(value)) + ",";
+    str += (isString(value) ? value : JSON.stringify(value)) + ",";
   }
   return str.replace(/,$/, '') + "]";
 };
@@ -57,19 +61,26 @@ Engine.prototype.toString = function () {
  * -------------------------
  */
 
-const { parent, parents, children, siblings, next, nextAll, prev, prevAll, eq } = require('./Search');
-const { innerHTML, outerHTML, attr, css } = require('./Operate');
+import { parent, parents, children, siblings, next, nextAll, prev, prevAll, eq } from './tools/Search';
+import { innerHTML, outerHTML, attr } from './tools/Operate';
 
 Engine.prototype.extend({
 
   // 结点查找
   parent, parents, children, siblings, next, nextAll, prev, prevAll, eq,
 
-  // 属性、样式等基本操作
+  // 属性等基本操作
   innerHTML, outerHTML, attr
 
 });
 
 Engine.prototype.init.prototype = Engine.prototype;
 
-module.exports = Engine;
+// 判断当前环境，如果不是浏览器环境
+if (typeof module === "object" && typeof module.exports === "object") {
+  module.exports = Engine;
+}
+// 浏览器环境下
+else {
+  window.xHtmlEngine = Engine;
+}
